@@ -290,7 +290,7 @@ function PlaceholderPage({ title }: { title: string }) {
 function Layout() {
   const auth = useAuth();
   const navigate = useNavigate();
-  const availablePages = pages.filter((page) => auth.user && (page.roles as readonly RoleCode[]).includes(auth.user.role.code) && (!IS_DEMO_MODE || page.path === "/leadops"));
+  const availablePages = pages.filter((page) => auth.user && (page.roles as readonly RoleCode[]).includes(auth.user.role.code));
 
   function handleLogout() {
     auth.logout();

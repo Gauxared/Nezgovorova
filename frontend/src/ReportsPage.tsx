@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { API_URL, apiRequest } from "./api";
+import { API_URL, IS_DEMO_MODE, apiRequest } from "./api";
 import type { DictionaryItem } from "./types";
 
 type ReportType = "projects" | "tasks" | "finance" | "clients" | "summary";
@@ -218,6 +218,20 @@ export function ReportDetailsPage({ token }: { token: string | null }) {
   }, [id, token]);
 
   async function exportCsv() {
+    if (IS_DEMO_MODE) {
+      const columns = report?.result.columns ?? [];
+      const rows = report?.result.rows ?? [];
+      const csv = [columns.join(";"), ...rows.map((row) => columns.map((column) => String(row[column] ?? "")).join(";"))].join("\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${report?.title ?? "report"}.csv`;
+      link.click();
+      URL.revokeObjectURL(url);
+      return;
+    }
+
     const response = await fetch(`${API_URL}/reports/${id}/export?format=csv`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {}
     });

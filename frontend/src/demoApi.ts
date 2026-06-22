@@ -200,6 +200,164 @@ const summary = {
   recentSyncJobs: integrationStatus.syncJobs
 };
 
+const users = [
+  { id: "demo-admin", fullName: "Администратор демо", email: "admin@example.com", role: demoUser.role },
+  { id: "user-001", fullName: "Анна Орлова", email: "orlova@example.ru" },
+  { id: "user-002", fullName: "Павел Кузнецов", email: "kuznetsov@example.ru" },
+  { id: "user-003", fullName: "Дмитрий Романов", email: "romanov@example.ru" }
+];
+
+const periods = [
+  { id: "period-2026-05", name: "Май 2026", dateFrom: "2026-05-01", dateTo: "2026-05-31", isClosed: true },
+  { id: "period-2026-06", name: "Июнь 2026", dateFrom: "2026-06-01", dateTo: "2026-06-30", isClosed: false },
+  { id: "period-2026-q2", name: "2 квартал 2026", dateFrom: "2026-04-01", dateTo: "2026-06-30", isClosed: false }
+];
+
+const directions = [
+  { id: "dir-analytics", name: "Аналитика и отчетность", description: "Dashboard, отчеты и управленческие показатели", isActive: true },
+  { id: "dir-crm", name: "CRM-интеграции", description: "Bitrix24, лиды и обмен данными", isActive: true },
+  { id: "dir-ops", name: "Операционные процессы", description: "Планы, задачи и контроль исполнения", isActive: true }
+];
+
+const statuses = [
+  { id: "status-client-active", entityType: "client", code: "active", name: "Активен", color: "#16a34a", sortOrder: 10 },
+  { id: "status-project-active", entityType: "project", code: "active", name: "В работе", color: "#c8102e", sortOrder: 20 },
+  { id: "status-project-planned", entityType: "project", code: "planned", name: "Планирование", color: "#f59e0b", sortOrder: 10 },
+  { id: "status-project-completed", entityType: "project", code: "completed", name: "Завершен", color: "#16a34a", sortOrder: 30 },
+  { id: "status-task-open", entityType: "task", code: "open", name: "Открыта", color: "#f59e0b", sortOrder: 10 },
+  { id: "status-task-progress", entityType: "task", code: "progress", name: "В работе", color: "#c8102e", sortOrder: 20 },
+  { id: "status-task-done", entityType: "task", code: "done", name: "Готово", color: "#16a34a", sortOrder: 30 }
+];
+
+const clients = [
+  { id: "client-001", name: "Сибирская медицинская сеть", contactPerson: "Марина Соколова", phone: "+7 913 210-44-20", email: "sokolova@example.ru", source: "Bitrix24", status: "Активен", crmLead: { title: "Поставка расходных материалов для сети клиник" } },
+  { id: "client-002", name: "Технопром-Сервис", contactPerson: "Олег Власов", phone: "+7 923 551-19-80", email: "vlasov@example.ru", source: "Сайт", status: "Активен", crmLead: { title: "Автоматизация отчетности отдела продаж" } },
+  { id: "client-003", name: "Логистика Восток", contactPerson: "Екатерина Минаева", phone: "+7 913 772-31-14", email: "minaeva@example.ru", source: "Рекомендация", status: "В работе", crmLead: { title: "Внедрение Telegram-отчетов для внешних сотрудников" } }
+];
+
+const projects = [
+  { id: "project-001", name: "CRM-контур поставок", client: clients[0], crmLead: { title: "Поставка расходных материалов для сети клиник" }, responsibleUser: users[1], direction: directions[1], status: { name: "В работе" }, startDate: "2026-05-12", plannedEndDate: "2026-06-24", budget: 1280000 },
+  { id: "project-002", name: "Аналитика продаж", client: clients[1], crmLead: { title: "Автоматизация отчетности отдела продаж" }, responsibleUser: users[2], direction: directions[0], status: { name: "Планирование" }, startDate: "2026-06-02", plannedEndDate: "2026-07-10", budget: 860000 },
+  { id: "project-003", name: "Telegram daily workflow", client: clients[2], crmLead: { title: "Внедрение Telegram-отчетов для внешних сотрудников" }, responsibleUser: users[3], direction: directions[2], status: { name: "В работе" }, startDate: "2026-05-28", plannedEndDate: "2026-06-30", budget: 540000 }
+];
+
+const internalTasks = [
+  { id: "task-001", title: "Проверить цены поставщиков", project: projects[0], crmLead: { title: "Поставка расходных материалов для сети клиник" }, responsibleUser: users[2], status: { name: "В работе" }, priority: "high", plannedEndDate: iso(-8), laborHours: 6 },
+  { id: "task-002", title: "Собрать список показателей", project: projects[1], crmLead: { title: "Автоматизация отчетности отдела продаж" }, responsibleUser: users[2], status: { name: "Открыта" }, priority: "medium", plannedEndDate: iso(24), laborHours: 4 },
+  { id: "task-003", title: "Описать роли внешних сотрудников", project: projects[2], crmLead: { title: "Внедрение Telegram-отчетов для внешних сотрудников" }, responsibleUser: users[3], status: { name: "Готово" }, priority: "medium", plannedEndDate: iso(12), laborHours: 5 }
+];
+
+const financialValues = [
+  { id: "fin-001", project: projects[0], period: periods[1], type: "planned_income", amount: 1280000, date: "2026-06-05", createdBy: users[0], comment: "План по сделке" },
+  { id: "fin-002", project: projects[0], period: periods[1], type: "income", amount: 420000, date: "2026-06-09", createdBy: users[0], comment: "Первый платеж" },
+  { id: "fin-003", project: projects[1], period: periods[1], type: "planned_income", amount: 860000, date: "2026-06-07", createdBy: users[0], comment: "Плановая выручка" },
+  { id: "fin-004", project: projects[2], period: periods[1], type: "expense", amount: 120000, date: "2026-06-08", createdBy: users[0], comment: "Настройка пилота" }
+];
+
+const reports = [
+  { id: "report-001", title: "Финансовая сводка по лидам", description: "План/факт по проектам, связанным с CRM-лидами", type: "finance", filters: {}, createdAt: iso(-18), createdBy: users[0] },
+  { id: "report-002", title: "Контроль задач внешних сотрудников", description: "Просрочки, ответственные и связанные лиды", type: "tasks", filters: {}, createdAt: iso(-36), createdBy: users[0] }
+];
+
+const reportDetails = {
+  "report-001": {
+    ...reports[0],
+    result: {
+      columns: ["Проект", "Плановый доход", "Фактический доход", "Расходы", "Маржа"],
+      rows: [
+        { Проект: "CRM-контур поставок", "Плановый доход": 1280000, "Фактический доход": 420000, Расходы: 160000, Маржа: 260000 },
+        { Проект: "Аналитика продаж", "Плановый доход": 860000, "Фактический доход": 0, Расходы: 0, Маржа: 0 },
+        { Проект: "Telegram daily workflow", "Плановый доход": 540000, "Фактический доход": 0, Расходы: 120000, Маржа: -120000 }
+      ]
+    }
+  },
+  "report-002": {
+    ...reports[1],
+    result: {
+      columns: ["Задача", "Проект", "Ответственный", "Статус", "Срок"],
+      rows: internalTasks.map((task) => ({
+        Задача: task.title,
+        Проект: task.project.name,
+        Ответственный: task.responsibleUser.fullName,
+        Статус: task.status.name,
+        Срок: String(task.plannedEndDate).slice(0, 10)
+      }))
+    }
+  }
+};
+
+const dashboard = {
+  kpi: {
+    activeProjectsCount: 3,
+    completedProjectsCount: 1,
+    overdueTasksCount: 2,
+    completedTasksPercent: 68,
+    plannedIncome: 2680000,
+    actualIncome: 420000,
+    expenses: 280000,
+    profit: 140000
+  },
+  charts: {
+    projectsByStatus: [
+      { name: "В работе", value: 2 },
+      { name: "Планирование", value: 1 },
+      { name: "Завершен", value: 1 }
+    ],
+    tasksByStatus: [
+      { name: "Открыта", value: 4 },
+      { name: "В работе", value: 7 },
+      { name: "Готово", value: 6 }
+    ],
+    financeDynamicsByPeriod: [
+      { period: "Апрель", income: 380000, expenses: 210000 },
+      { period: "Май", income: 640000, expenses: 260000 },
+      { period: "Июнь", income: 420000, expenses: 280000 }
+    ],
+    incomeExpenseComparison: [
+      { name: "Доходы", value: 420000 },
+      { name: "Расходы", value: 280000 }
+    ],
+    topClientsByRevenue: [
+      { clientId: "client-001", name: "Сибирская медицинская сеть", revenue: 420000 },
+      { clientId: "client-002", name: "Технопром-Сервис", revenue: 0 },
+      { clientId: "client-003", name: "Логистика Восток", revenue: 0 }
+    ]
+  },
+  problemData: {
+    overdueTasks: [
+      { id: "task-001", title: "Проверить цены поставщиков", project: "CRM-контур поставок", responsibleUser: "Илья Мельников", plannedEndDate: iso(-8), status: "В работе" },
+      { id: "task-004", title: "Уточнить контур интеграций", project: "Аналитика продаж", responsibleUser: "Павел Кузнецов", plannedEndDate: iso(-6), status: "Открыта" }
+    ],
+    projectsNearDeadline: [
+      { id: "project-001", name: "CRM-контур поставок", client: "Сибирская медицинская сеть", plannedEndDate: iso(48), status: "В работе" },
+      { id: "project-003", name: "Telegram daily workflow", client: "Логистика Восток", plannedEndDate: iso(72), status: "В работе" }
+    ],
+    projectsWithNegativeProfit: [
+      { id: "project-003", name: "Telegram daily workflow", client: "Логистика Восток", income: 0, expenses: 120000, profit: -120000 }
+    ]
+  }
+};
+
+const auditLogs = [
+  { id: "audit-001", action: "login", entityType: "User", entityId: "demo-admin", oldValue: null, newValue: { email: "admin@example.com" }, createdAt: iso(-1), user: users[0] },
+  { id: "audit-002", action: "update", entityType: "Lead", entityId: "lead-001", oldValue: { stage: "Презентация" }, newValue: { stage: "Согласование" }, createdAt: iso(-3), user: users[1] },
+  { id: "audit-003", action: "export", entityType: "Report", entityId: "report-001", oldValue: null, newValue: { format: "csv" }, createdAt: iso(-18), user: users[0] }
+];
+
+const dataByPath: Record<string, unknown[]> = {
+  "/clients": clients,
+  "/projects": projects,
+  "/tasks": internalTasks,
+  "/financial-values": financialValues,
+  "/users": users,
+  "/references/periods": periods,
+  "/references/directions": directions,
+  "/references/statuses": statuses,
+  "/leadops/lead-options": leadList.map((lead) => ({ id: lead.id, name: lead.title, title: lead.title, externalId: lead.externalId })),
+  "/reports": reports,
+  "/audit-logs": auditLogs
+};
+
 export async function demoLogin(email: string, password: string) {
   if (email !== "admin@example.com" || password !== "admin12345") {
     throw new Error("Для демо используйте admin@example.com / admin12345");
@@ -218,6 +376,12 @@ export async function demoApiRequest<T>(path: string, options: RequestInit = {})
   const method = (options.method ?? "GET").toUpperCase();
   if (method !== "GET") {
     return { ok: true } as T;
+  }
+
+  const normalizedPath = path.split("?")[0];
+
+  if (normalizedPath === "/analytics/dashboard") {
+    return dashboard as T;
   }
 
   if (path.startsWith("/leadops/analytics/summary")) {
@@ -246,8 +410,13 @@ export async function demoApiRequest<T>(path: string, options: RequestInit = {})
     return integrationStatus as T;
   }
 
-  if (path.startsWith("/references/") || ["/clients", "/projects", "/users"].includes(path)) {
-    return { data: [] } as T;
+  const reportMatch = normalizedPath.match(/^\/reports\/([^/]+)$/);
+  if (reportMatch) {
+    return { data: reportDetails[reportMatch[1] as keyof typeof reportDetails] ?? reportDetails["report-001"] } as T;
+  }
+
+  if (normalizedPath in dataByPath) {
+    return { data: dataByPath[normalizedPath] } as T;
   }
 
   throw new Error("В статическом демо этот раздел не подключен к API");

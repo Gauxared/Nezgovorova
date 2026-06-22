@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { API_URL } from "./api";
+import { API_URL, IS_DEMO_MODE } from "./api";
 
 const importTargets = [
   { value: "clients", label: "Клиенты", columns: "name;contactPerson;phone;email;source;status" },
@@ -41,6 +41,12 @@ export function ImportPage({ token }: { token: string | null }) {
 
     setIsLoading(true);
     try {
+      if (IS_DEMO_MODE) {
+        await new Promise((resolve) => window.setTimeout(resolve, 300));
+        setResult({ imported: 3, errors: [] });
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", file);
       const response = await fetch(`${API_URL}/import/${target}`, {
