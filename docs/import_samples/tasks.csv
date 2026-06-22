@@ -1,0 +1,2 @@
+projectId;title;description;responsibleUserId;statusId;priority;plannedEndDate;actualEndDate;laborHours
+REPLACE_PROJECT_ID;Импортированная задача;Пример задачи из CSV;REPLACE_USER_ID;REPLACE_TASK_STATUS_ID;medium;2026-06-15;;6

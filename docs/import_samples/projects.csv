@@ -1,0 +1,2 @@
+name;clientId;responsibleUserId;directionId;statusId;startDate;plannedEndDate;actualEndDate;budget;description
+Импортированный проект;REPLACE_CLIENT_ID;REPLACE_USER_ID;REPLACE_DIRECTION_ID;REPLACE_PROJECT_STATUS_ID;2026-06-01;2026-07-01;;250000;Пример проекта для импорта
